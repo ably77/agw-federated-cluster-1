@@ -43,7 +43,7 @@ spec:
         - name: APP_TITLE
           value: "WGU Enrollment Advisor"
         - name: DATA_PRODUCT_URL
-          value: "http://data-product-api.wgu-demo.svc.cluster.local:8080"
+          value: "http://data-product-api.wgu-demo.mesh.internal:8080"
         - name: GRAPH_DB_URL
           value: "http://graph-db-mock.wgu-demo.svc.cluster.local:8081"
         - name: NS_BACKEND
