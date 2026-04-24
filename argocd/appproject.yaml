@@ -4,7 +4,7 @@ metadata:
   name: developers-cluster-1
   namespace: argocd
 spec:
-  description: Developer workloads for leaf-1 (cluster2)
+  description: Developer workloads for leaf-1
   sourceRepos:
     - https://github.com/ably77/agw-federated-cluster-1.git
   destinations:
