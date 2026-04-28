@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - namespaces.yaml
+  - graph-db-mock.yaml
+  - data-product-api.yaml
+  - analytics-mcp.yaml
+  - streaming-chatbot.yaml
