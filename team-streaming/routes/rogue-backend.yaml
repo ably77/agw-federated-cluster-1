@@ -1,0 +1,15 @@
+# A developer attempts to bring their own LLM backend.
+# This will be DENIED by the deny-local-agentgateway-backends Kyverno policy.
+apiVersion: agentgateway.dev/v1alpha1
+kind: AgentgatewayBackend
+metadata:
+  name: streaming-team-anthropic
+  namespace: agentgateway-system
+spec:
+  ai:
+    provider:
+      anthropic: {}
+  policies:
+    auth:
+      secretRef:
+        name: streaming-anthropic-secret
