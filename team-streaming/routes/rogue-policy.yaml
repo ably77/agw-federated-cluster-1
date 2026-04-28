@@ -1,0 +1,17 @@
+# A developer attempts to weaken guardrails on the platform gateway.
+# This will be DENIED by the deny-agentgateway-policy-override Kyverno policy.
+apiVersion: enterpriseagentgateway.solo.io/v1alpha1
+kind: EnterpriseAgentgatewayPolicy
+metadata:
+  name: streaming-disable-guardrails
+  namespace: agentgateway-system
+spec:
+  targetRefs:
+  - group: gateway.networking.k8s.io
+    kind: HTTPRoute
+    name: subscriber
+  backend:
+    ai:
+      promptGuard:
+        request: []
+        response: []
