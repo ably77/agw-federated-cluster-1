@@ -1,0 +1,77 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: streaming-backend-chatbot
+  namespace: streaming-frontend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: streaming-backend-chatbot
+  namespace: streaming-frontend
+  labels:
+    app: streaming-backend-chatbot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: streaming-backend-chatbot
+  template:
+    metadata:
+      labels:
+        app: streaming-backend-chatbot
+    spec:
+      serviceAccountName: streaming-backend-chatbot
+      containers:
+      - name: streaming-backend-chatbot
+        image: ably7/streaming-backend-chatbot:0.0.2
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8501
+          name: http
+        env:
+        - name: GATEWAY_IP
+          value: "agentgateway-proxy.agentgateway-system.svc.cluster.local"
+        - name: GATEWAY_PORT
+          value: "8080"
+        - name: GATEWAY_PROTOCOL
+          value: "http"
+        - name: ORG_NAME
+          value: "Hooli"
+        - name: ORG_SHORT
+          value: "Hooli"
+        - name: APP_TITLE
+          value: "Hooli Entertainment Concierge"
+        - name: DATA_PRODUCT_URL
+          value: "http://data-product-api.streaming-backend.mesh.internal:8080"
+        - name: GRAPH_DB_URL
+          value: "http://graph-db-mock.streaming-backend.svc.cluster.local:8081"
+        - name: NS_BACKEND
+          value: "streaming-backend"
+        - name: NS_FRONTEND
+          value: "streaming-frontend"
+        - name: MCP_URL
+          value: "http://agentgateway-proxy.agentgateway-system.svc.cluster.local:8080/analytics-mcp"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: streaming-backend-chatbot
+  namespace: streaming-frontend
+  labels:
+    app: streaming-backend-chatbot
+spec:
+  type: ClusterIP
+  selector:
+    app: streaming-backend-chatbot
+  ports:
+  - name: http
+    port: 8501
+    targetPort: 8501

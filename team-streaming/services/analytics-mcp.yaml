@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: analytics-mcp
+  namespace: streaming-backend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analytics-mcp
+  namespace: streaming-backend
+  labels:
+    app: analytics-mcp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: analytics-mcp
+  template:
+    metadata:
+      labels:
+        app: analytics-mcp
+    spec:
+      serviceAccountName: analytics-mcp
+      containers:
+      - name: analytics-mcp
+        image: ably7/streaming-backend-analytics-mcp:0.0.1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8082
+          name: http
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: analytics-mcp
+  namespace: streaming-backend
+  labels:
+    app: analytics-mcp
+spec:
+  selector:
+    app: analytics-mcp
+  ports:
+  - name: http
+    port: 8082
+    targetPort: 8082
