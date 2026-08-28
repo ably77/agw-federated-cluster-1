@@ -8,7 +8,7 @@ spec:
   - "enroll.glootest.com"
   parentRefs:
   - name: ingress
-    namespace: agentgateway-system
+    namespace: agentgateway-ingress
   rules:
   - backendRefs:
     - name: enrollment-chatbot
@@ -28,7 +28,7 @@ spec:
   - "grafana.glootest.com"
   parentRefs:
   - name: ingress
-    namespace: agentgateway-system
+    namespace: agentgateway-ingress
   rules:
   - backendRefs:
     - name: kube-prometheus-leaf-1-grafana
